@@ -9,10 +9,7 @@ int main(){
     int index;
     int max=0;
     scanf("%d",&n);
-    int list[10000000];
-    for(int i=1; i<=n; i++){
-        list[i]=0;
-    }
+    int list[10002]={0};
     for(int i=1; i<=n; i++){
         scanf("%d",&index);
         list[index]++;
