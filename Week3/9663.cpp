@@ -3,7 +3,7 @@ using namespace std;
 
 static int board[15][15]={0};
 static int cnt=0;
-
+//Promising
 bool isValid(int n, int x, int y){
     
     //가로 세로
@@ -57,7 +57,7 @@ bool fill(int n, int row, int col){
         
         if(isValid(n,i,y)){
             board[i][y]=1;
-            if(y==n-1){
+            if(y==n-1){ // 체스판에 퀸이 n개 놓은 경우.
                 cnt++;
                 board[i][y]=0;
                 return true;
