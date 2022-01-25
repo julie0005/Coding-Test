@@ -6,7 +6,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
 
-import java.util.StringTokenizer;
+//import java.util.StringTokenizer;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.ArrayList;
@@ -34,7 +34,7 @@ public class Josephus {
             }
             output.add(q.poll());
         }
-        
+
         StringBuilder outputStr=new StringBuilder("<");
         for(int i=0; i<output.size(); i++){
             String addStr=(i==0) ? output.get(i) : ", "+output.get(i);
