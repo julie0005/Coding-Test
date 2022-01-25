@@ -1,0 +1,49 @@
+class Solution {
+    // 어차피 위치값은 고정이니까, 규칙으로 추론해낼 필요 없다.
+    
+    int[][] numpadPos={
+        {3,1}, //0
+        {0,0}, //1
+        {0,1}, //2
+        {0,2}, //3
+        {1,0}, //4
+        {1,1}, //5
+        {1,2}, //6
+        {2,0}, //7
+        {2,1}, //8
+        {2,2}, //9
+    };
+    
+    int[] currentLeftPos = {3,0};
+    int[] currentRightPos = {3,2};
+    String hand;
+    
+    public String solution(int[] numbers, String hand) {
+        String answer = "";
+        this.hand=(hand.equals("right")) ? "R" : "L";
+        
+        for(int i=0; i<numbers.length; i++){
+            String currentHand=decideHand(numbers[i]);
+            answer+=currentHand;
+            
+            if(currentHand.equals("L")) currentLeftPos=numpadPos[numbers[i]];
+            if(currentHand.equals("R")) currentRightPos=numpadPos[numbers[i]];
+        }
+        
+        return answer;
+    }
+    
+    public String decideHand(int num){
+        if(num==1 || num==4 || num==7) return "L";
+        if(num==3 || num==6 || num==9) return "R";
+        
+        if(getDistance(currentLeftPos, num)>getDistance(currentRightPos, num)) return "R";
+        if(getDistance(currentRightPos,num)>getDistance(currentLeftPos,num)) return "L";
+        
+        return this.hand;
+    }
+    
+    public int getDistance(int[] pos, int num){
+        return Math.abs(numpadPos[num][0]-pos[0])+Math.abs(numpadPos[num][1]-pos[1]);
+    }
+}
