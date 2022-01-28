@@ -1,0 +1,21 @@
+import java.util.*;
+class StockPrice {
+    public int[] solution(int[] prices) {
+        Queue<Integer> priceQ=new LinkedList<Integer>();
+        List<Integer> answerQ=new ArrayList<Integer>();
+        
+        for(int price : prices){
+            priceQ.offer(price);
+        }
+        while(!priceQ.isEmpty()){
+            int tick=0;
+            int top=priceQ.poll();
+            for(int price : priceQ){
+                tick++;
+                if(top>price) break;
+            }
+            answerQ.add(tick);
+        }
+        return answerQ.stream().mapToInt(i->i).toArray();
+    }
+}
