@@ -1,0 +1,41 @@
+import java.util.*;
+
+class Solution {
+    class Document{
+        int priority;
+        int location;
+        
+        public Document(int priority, int location){
+            this.priority=priority;
+            this.location=location;
+        }
+    }
+    
+    public int solution(int[] priorities, int location) {
+        int order = 0;
+        int idx=0;
+        Queue<Document> waitQ=new LinkedList<Document>();
+        
+        for(int priority : priorities){
+            waitQ.offer(new Document(priority, idx++));
+        }
+        
+        while(!waitQ.isEmpty()){
+            Document top=waitQ.poll();
+            boolean mostImportant=true;
+            for(Document elem : waitQ){
+                if(top.priority<elem.priority){
+                    waitQ.offer(top);
+                    mostImportant=false;
+                    break;
+                }
+            }
+            if(mostImportant){
+                order++;
+                if(top.location==location) break;
+            }
+        }
+        
+        return order;
+    }
+}
