@@ -1,3 +1,10 @@
+/* 2606 바이러스
+Point : Connected Graph 찾기
+방법
+1. DFS (스택) - 120ms, 14288kb
+2. DFS (재귀) - 128ms, 14304kb
+3. BFS (큐) - 136ms, 14292kb
+*/
 package baekjoon.DFSBFS;
 
 import java.io.BufferedReader;
