@@ -19,16 +19,20 @@ public class SelectNumber {
             seq[i]=Integer.parseInt(st.nextToken());
         }
         Arrays.sort(seq);
-        int start=0, end=0, diff=0, minDiff=-1;
+        int start=0, end=0, minDiff=Integer.MAX_VALUE;
         while(start<N-1 && end<N){
-            
-            if(diff>=M || end==N-1){
-                start++;
+            if(seq[end]-seq[start]<M){
+                end++;
+                continue;
             }
-            else end++;
-            diff=Math.abs(seq[end]-seq[start]);
-            if(diff>=M && (minDiff==-1 || minDiff>diff  )) minDiff=diff; 
+            if(seq[end]-seq[start]==M){
+                minDiff=M;
+                break;
+            }
+            minDiff=Math.min(minDiff, seq[end]-seq[start]);
+            start++;
         }
+        
         System.out.println(minDiff);
     }
 }
