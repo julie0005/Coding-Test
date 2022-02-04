@@ -3,7 +3,6 @@ package baekjoon.TwoPointer;
 g : 현재^2- 기억^2 = n^2-r^2 = (n-r)(n+r) = end^2-start^2
 */
 import java.io.*;
-import java.util.*;
 
 public class Diet {
     public static void main(String[] args) throws IOException{
