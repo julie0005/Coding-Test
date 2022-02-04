@@ -9,10 +9,6 @@ public class Diet {
     public static void main(String[] args) throws IOException{
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         int g=Integer.parseInt(br.readLine());
-        int[] seq=new int[g+1];
-        for(int i=0; i<g; i++){
-            seq[i]=i+1;
-        }
         int start=1, end=1, res=0;
         boolean isPossible=false;
         while(start<=g){
