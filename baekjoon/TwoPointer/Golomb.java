@@ -12,9 +12,10 @@ public class Golomb {
         golong.add(0);
         golong.add(1);
         int nextIdx=2;
+        int nextNum=1;
         while(nextIdx<=n){
             //섹션 시작
-            int nextNum=golong.get(nextIdx-1)+1;
+            nextNum=nextNum+1;
             golong.add(nextNum);
             int len=golong.get(nextNum);
             for(int i=0; i<len-1; i++){
@@ -22,7 +23,7 @@ public class Golomb {
             }
             nextIdx=golong.size();
         }
-        System.out.println(golong.get(n));
+        System.out.println(nextNum);
     }
 }
 
