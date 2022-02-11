@@ -16,6 +16,5 @@ public class MinMax {
             minHeap.offer(cur);
         }
         System.out.print(minHeap.peek()+" "+maxHeap.peek());
-        
     }
 }
