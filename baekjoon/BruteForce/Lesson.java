@@ -1,6 +1,10 @@
 package baekjoon.BruteForce;
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
+import java.util.ArrayList;
+import java.util.Collections;
 /* 1062 가르침 */
 /*
 ArrayList 합집합 : 알파벳의 우선순위, 겹치는 정도가 작을수록 우선순위 높음
@@ -67,7 +71,6 @@ public class Lesson {
             for(int j=0; j<N; j++){
                 if(words[j].contains(Character.toString(c))){
                     alphaCnt.get(i).frequency++;
-                    alphaCnt.get(i).from.add(j);
                     find=true;
                 }
             }
@@ -88,7 +91,6 @@ public class Lesson {
 class AlphaInfo implements Comparable<AlphaInfo>{
     char alpha;
     int frequency=0;
-    ArrayList<Integer> from=new ArrayList<Integer>();
     AlphaInfo(char alpha, int freq){
         this.alpha=alpha;
         this.frequency=freq;
