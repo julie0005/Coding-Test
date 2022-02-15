@@ -12,9 +12,9 @@ ArrayList 합집합 : 알파벳의 우선순위, 겹치는 정도가 작을수�
 N개 중에 M개의 모든 조합을 찾는 알고리즘!
 * 비트마스크
 * m개 중에서 n개 완전탐색 하는 법 : 재귀함수로.
+* for문과 재귀함수를 구성하는 방식에 따라 bruteforce가 될 수도 있고, backtracking이 될 수도 있다.
 */
 public class Lesson {
-    static int caseNum=0;
     static String[] words;
     static int N,K;
     static ArrayList<AlphaInfo> alphaCnt=new ArrayList<AlphaInfo>();
