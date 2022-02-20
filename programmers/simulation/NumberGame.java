@@ -1,3 +1,4 @@
+/* 숫자 게임*/
 package programmers.simulation;
 import java.util.*;
 public class NumberGame {
