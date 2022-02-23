@@ -3,7 +3,7 @@ package baekjoon.DFSBFS;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
-
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class VirusRecursive {
@@ -26,7 +26,7 @@ public class VirusRecursive {
         num=Integer.parseInt(br.readLine());
         int edge=Integer.parseInt(br.readLine());
         StringTokenizer st=null;
-        
+        //Arrays.fill(visited,false);
         for(int i=0; i<edge; i++){
             st=new StringTokenizer(br.readLine(), " ");
             int row=Integer.parseInt(st.nextToken());
