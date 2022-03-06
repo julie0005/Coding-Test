@@ -1,0 +1,49 @@
+import java.util.*;
+//bfs
+class GameMap {
+    boolean[][] visited;
+    int[][] board;
+    int answer=-1;
+    int cost=Integer.MAX_VALUE;
+    int[] dx={1, -1, 0, 0};
+    int[] dy={0, 0, 1, -1};
+    
+    Queue<int[]> q=new LinkedList<int[]>();
+    public void bfs(int r, int c, int n, int m){
+       visited[r][c]=true;
+       int[] init={r,c, 1};
+       q.offer(init);
+       while(!q.isEmpty()){
+           r=q.peek()[0];
+           c=q.peek()[1];
+           int p=q.peek()[2];
+           q.poll();
+           for(int i=0; i<4; i++){
+               int nextR=r+dx[i];
+               int nextC=c+dy[i];
+               if(nextR<n && nextC<m && nextR>=0 && nextC>=0){
+                   if(board[nextR][nextC]==1 && !visited[nextR][nextC]){
+                       if(nextR==n-1 && nextC==m-1){
+                           cost=Math.min(cost, p+1);
+                           break;
+                       }
+                       int[] param={nextR, nextC, p+1};
+                       q.offer(param);
+                       visited[nextR][nextC]=true;
+                   }
+               }
+           }
+       }
+
+    }
+
+    public int solution(int[][] maps) {
+        int n=maps.length;
+        int m=maps[0].length;
+        visited=new boolean[n][m];
+        board=maps;
+        bfs(0,0,n,m);
+        answer=(cost==Integer.MAX_VALUE) ? -1 : cost;
+        return answer;
+    }
+}
