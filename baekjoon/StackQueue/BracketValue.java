@@ -1,78 +1,73 @@
 package baekjoon.StackQueue;
-import java.io.*;
 import java.util.*;
-public class BracketValue {
-    public static boolean isPossible(String curStr){
-        if(curStr.equals("(")||curStr.equals(")")||curStr.equals("[")||curStr.equals("]")) return true;
-        return false;
-    }
-    public static int strToVal(String bracket){
-        if(bracket.equals("(") || bracket.equals(")")) return 2;
-        else if(bracket.equals("[") || bracket.equals("]")) return 3;
-        return -1;
-    }
+import java.io.*;
+/*
+2540 괄호의 값
+아이디어
+1.괄호를 열 때 연산하기 / 괄호를 닫을 때 연산하기
+2. 스택에 숫자와 문자 같이 둘 수 있다는 발상
+3. 어느 지점까지는 연산, 어느 지점에서는 멈춰보기
+*/
 
-    public static boolean isCorrect(String cur, String prev){
-        if(prev.equals("(") && cur.equals(")")) return true;
-        if(prev.equals("[") && cur.equals("]")) return true;
+public class BracketValue{
+    public static boolean isVPS(String c, String target){
+        if(c.equals(target)) return true;
         return false;
+    }
+    public static boolean isNumber(String str){
+        if(str.equals(")") || str.equals("]")) return false;
+        return true;
     }
     public static void main(String[] args) throws IOException{
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-        String seq=br.readLine();
-        Stack<String> st=new Stack<String>();
-        int curStatus=-1;
-        int prevStatus=-1;
-        int addVal=0;
-        int curVal=0;
-        // 0 : close
-        // 1 : open
-        for(int i=0; i<seq.length(); i++){
-            prevStatus=curStatus;
-            String curStr=seq.substring(i, i+1);
-            if(!isPossible(curStr)){
-                System.out.println(0);
-                return;
-            }
-            if(curStr.equals("(")||curStr.equals("[")) curStatus=1;
-            else curStatus=0;
-            
-            // open
-            if(curStatus==1){
-                st.push(curStr);
-                if(prevStatus==0) addVal+=curVal;
+        String str=br.readLine();
+        Stack<String> stack=new Stack<String>();
+        boolean isAble=true;
+
+        for(int i=0; i<str.length();i++){
+            String c=str.substring(i,i+1);
+            if("(".equals(c)){
+                stack.push(")");
                 continue;
             }
-            
-            // close
-            if(!st.isEmpty()){
-                String prevStr=st.pop();
-                if(prevStatus==1){
-                    if(!isCorrect(curStr, prevStr)){
-                        System.out.println(0);
-                        return;
+            if("[".equals(c)){
+                stack.push("]");
+                continue;
+            }
+            int num=0;
+            while(true){
+                if(stack.isEmpty()){
+                    isAble=false;
+                    break;
+                }
+                if(isNumber(stack.peek())){
+                    num+=Integer.parseInt(stack.pop());
+                }
+                else{
+                    if(isVPS(c, stack.peek())){
+                        stack.pop();
+                        int t=(")".equals(c)) ? 2 : 3;
+                        if(num==0) stack.push(String.valueOf(t));
+                        else stack.push(String.valueOf(t*num));
+                        break;
                     }
-                    curVal=strToVal(curStr)+addVal;
-                    addVal=0;
-                }
-                else if(prevStatus==0){
-                    curVal=curVal*strToVal(curStr)+addVal;
-                    addVal=0;
+                    else isAble=false;
+                    break;
                 }
             }
-            else{
-                System.out.println(0);
-                return;
+            if(!isAble) break;
+        }
+        int result=0;
+            while(!stack.isEmpty()){
+                if(isNumber(stack.peek())){
+                    result+=Integer.parseInt(stack.pop());
+                }else{
+                    isAble=false;
+                    break;
+                }
             }
-            
-        }
+            if(isAble) System.out.println(result);
+            else System.out.println(0);
+    } 
 
-        if(!st.isEmpty()){
-            System.out.println(0);
-            return;
-        }
-
-        System.out.println(curVal+addVal);
-
-    }
 }
