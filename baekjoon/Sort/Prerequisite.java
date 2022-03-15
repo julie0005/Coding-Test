@@ -3,56 +3,59 @@ package baekjoon.Sort;
 14567 선수과목
 1. 인접리스트로 그래프 표현
 2. 인접리스트 탐색
+3. 위상정렬 이용
+- 진입차수 배열 이용하여 진입차수 0인 것 매번 탐색하지 않게 하기.
+- 큐가 빌 때까지 간선제거를 반복함으로써 단계 값 조절.
+- 인접리스트를 탐색하는 것은 비효율적. 인덱스와 연결된 값만 찾는 것으로 활용.
 */
 import java.util.*;
 import java.io.*;
 public class Prerequisite {
-    public static ArrayList<ArrayList<Integer>> graph;
-    public static int N,M;
-    public static int[] answer;
-    public static boolean[] visited;
-    public static void search(int target, int depth, int firstTarget){
-        boolean hasInput=false;
-        if(depth==1) firstTarget=target;
-        for(int i=1; i<=N; i++){
-            for(int temp : graph.get(i)){
-                
-                if(temp==target && !visited[temp]){
-                    //System.out.println("target : "+target+", temp : "+temp+", i : "+i+", depth : "+depth);
-                    hasInput=true;
-                    visited[temp]=true;
-                    search(i, depth+1, firstTarget);
+    static ArrayList<ArrayList<Integer>> graph=new ArrayList<ArrayList<Integer>>();
+    static int[] degree_in;
+
+    static String topologicalSort(int N){
+        Queue<Integer> q=new LinkedList<>();
+        int answer[]=new int[N];
+        int depth=0;
+        boolean visited[]=new boolean[N];
+        while(true){
+            if(q.isEmpty()){
+                depth++;
+                for(int i=0; i<N; i++){
+                    if(!visited[i] && degree_in[i]==0){
+                        q.offer(i);
+                        answer[i]=depth;
+                        visited[i]=true;
+                    }
                 }
+                if(q.isEmpty()) break;
             }
+            int front=q.poll();
+            for(int behind : graph.get(front)) degree_in[behind]--;
         }
-        if(!hasInput){
-            answer[firstTarget]=Math.max(answer[firstTarget],depth);
+        StringBuilder sb=new StringBuilder();
+        for(int i=0; i<N; i++){
+            sb.append(answer[i]+" ");
         }
+        return sb.toString();
     }
     public static void main(String[] args) throws IOException{
-        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+        BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st=new StringTokenizer(br.readLine());
-        N=Integer.parseInt(st.nextToken());
-        M=Integer.parseInt(st.nextToken());
-        graph=new ArrayList<ArrayList<Integer>>();
-        answer=new int[N+1];
-        visited=new boolean[N+1];
-        Queue<Integer> q=new LinkedList<>();
-        for(int i=0; i<N+1; i++){
-            graph.add(new ArrayList<Integer>());
+        int N=Integer.parseInt(st.nextToken());
+        int M=Integer.parseInt(st.nextToken());
+        for(int i=0; i<N; i++){
+            graph.add(new ArrayList<>());
         }
+        degree_in=new int[N];
         for(int i=0; i<M; i++){
             st=new StringTokenizer(br.readLine());
-            int front=Integer.parseInt(st.nextToken());
-            int behind=Integer.parseInt(st.nextToken());
+            int front=Integer.parseInt(st.nextToken())-1;
+            int behind=Integer.parseInt(st.nextToken())-1;
             graph.get(front).add(behind);
+            degree_in[behind]++;
         }
-        //탐색
-        for(int i=1; i<=N; i++){
-            Arrays.fill(visited,false);
-            search(i,1,i);
-            System.out.print(answer[i]);
-            if(i!=N) System.out.print(" ");
-        }
+        System.out.println(topologicalSort(N));
     }
 }
