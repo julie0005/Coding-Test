@@ -1,6 +1,9 @@
 package baekjoon.Sort;
 import java.util.*;
 import java.io.*;
+/*
+2252 줄세우기
+*/
 public class Line {
     public static ArrayList<ArrayList<Integer>> graph;
     public static int[] degree_in;
@@ -16,10 +19,8 @@ public class Line {
         }
         while(!q.isEmpty()){
             int student=q.poll();
-            //System.out.println("selected student : "+student);
             answers.add(student);
             for(int out : graph.get(student)){
-                //System.out.println(out);
                 degree_in[out]--;
             }
             for(int i=0; i<degree_in.length; i++){
