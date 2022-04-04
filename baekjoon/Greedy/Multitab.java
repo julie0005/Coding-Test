@@ -1,90 +1,52 @@
 package baekjoon.Greedy;
-/*
-1700 멀티탭 스케줄링
-*풀이계획
-1. 칸이 있는 경우 - 꽂는다.
-2. 칸이 없는 경우 - 빼고 꽂는다.
-- 무엇을 빼는가?
-2-1. 현재 꽂혀있는 콘센트들 중에 가장 나중에 적게 사용되는 녀석을 뺀다
-모두 빈도가 같다면? 가장 나중에 등장하는 녀석을 뺀다.
-솔루션 잘못됨.
-빈도와 상관없이 가장 나중에 등장하는 녀석을 빼야함.
-*/
 import java.io.*;
 import java.util.*;
 public class Multitab {
     public static void main(String[] args) throws IOException{
         BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st=new StringTokenizer(br.readLine());
+        int holes = Integer.parseInt(st.nextToken());
+        int k = Integer.parseInt(st.nextToken());
 
-        int holes=Integer.parseInt(st.nextToken());
-        int K=Integer.parseInt(st.nextToken());
-
-        int[] seq=new int[K];
-        st=new StringTokenizer(br.readLine());
-
-        int[] position=new int[K+1];
-        boolean[] isPlugged=new boolean[K+1];
-        int[] counts=new int[K+1]; //빈도수
-    
-        for(int i=0; i<K; i++){
-            seq[i]=Integer.parseInt(st.nextToken());
-            counts[seq[i]]++;
+        st = new StringTokenizer(br.readLine());
+        List<Integer> list=new ArrayList<>();
+        for(int i=0; i<k; i++){
+            list.add(Integer.parseInt(st.nextToken()));
         }
-        int[] multitab=new int[holes];
-        int unplugged=holes;
-        int plugIdx=0; //아직 멀티탭이 다 차지 않았을 때 꽂을 수 있는 플러그.
-        int answer=0;
-        for(int i=0; i<K; i++){
-            System.out.println("플러그 : "+seq[i]);
-            System.out.println("unplugged : "+unplugged);
-            System.out.println("현재 플러그 상태 : ");
+        
+        Set<Integer> set = new HashSet<>(); //멀티탭
 
-            for(int j=0; j<K; j++){
-                if(isPlugged[j+1]) System.out.print(j+1+" ");
+        int cnt = 0;
+        for(int i=0; i<k; i++){
+            int num = list.get(i); // 현재 꽂는 전자제품
+            if(set.contains(num)) continue; // 이미 꽂아져 있으면 넘김 
+            if(set.size()<holes && set.add(num)) continue; // 자리가 남아있으면 전자제품 추가
+
+            //자리 없어서 뺄 놈 정해야하는 경우
+            //뺐을 때 그 플러그 자리를 최대한 오래 사용할 수 있는 전자제품 = optimal solution
+            //한번도 등장하지 않는 경우, 가장 늦게 등장하는 경우
+            int max = -1, idx = -1;
+            for(int s : set){
+                int duration=0;
+                List<Integer> sub=list.subList(i+1, k);
+                if(sub.contains(s)){
+                    //만약 나중에 이 전자제품이 등장한다면
+                    duration = sub.indexOf(s)+1;
+                }
+                else{
+                    //한번도 등장하지 않는다면
+                    duration=k-i-1;
+                }
+                if(duration > max){
+                    max = duration;
+                    idx = s;
+                }
             }
-            System.out.print("\n");
-
-            counts[seq[i]]--;
+            set.remove(idx);
+            set.add(num);
+            cnt++;
             
-            if(isPlugged[seq[i]]){
-
-                continue;
-            }
-            if(unplugged>0){
-                // 칸이 있는 경우
-                position[seq[i]]=plugIdx;
-                multitab[plugIdx++]=seq[i];
-                unplugged--;
-                isPlugged[seq[i]]=true;
-
-                continue;
-            }
-
-            //칸이 없는 경우
-            int next=0;
-            int maintainTime=0;
-            for(int obj : multitab){
-                if(counts[obj]==0){
-                    next=obj;
-                    break;
-                }
-                for(int j=i+1; j<K; j++){
-                    if(obj==seq[j] && j>maintainTime){
-                        maintainTime=j;
-                        next=obj;
-                        break;
-                    }
-                }
-            }
-
-            System.out.println("next : "+next);
-            multitab[position[next]]=seq[i];
-            position[seq[i]]=position[next];
-            isPlugged[next]=false;
-            isPlugged[seq[i]]=true;
-            answer++;
         }
-        System.out.println(answer);
+        System.out.println(cnt);
     }
 }

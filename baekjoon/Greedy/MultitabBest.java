@@ -17,7 +17,6 @@ public class MultitabBest {
 		int k = Integer.parseInt(st.nextToken());
 		
 		st = new StringTokenizer(br.readLine());
-		int[] seq = new int[k];
 		List<Integer> list = new ArrayList<>();
 		for(int i=0; i<k; i++) {
 			list.add(Integer.parseInt(st.nextToken()));
