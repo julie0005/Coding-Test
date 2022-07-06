@@ -1,0 +1,36 @@
+class PrimeNumberK {
+    //     long type 주의
+        String[] number = {"0","1","2","3","4","5","6","7","8","9","A","B","C","D","E","F"};
+        public int solution(int n, int k) {
+            int answer=0;
+            String converted = convertToRadix(n,k);
+            String parsed[] = converted.split("0");
+            for(String str : parsed) {
+                if(str.trim().equals("")) continue;
+                if(isPrime(Long.parseLong(str))) answer++;
+            }
+            return answer;
+        }
+        
+        private String convertToRadix(int n, int k) {
+            String result = "";
+            if(n == 0) {
+                return "0";
+            }
+            while(n > 0) {
+                result = number[n % k] + result;
+                n /= k;
+            }
+            return result;
+        }
+        
+        private boolean isPrime(long n) {
+            if(n <= 1) return false;
+            else if(n == 2) return true;
+            for(int i = 2; i <= Math.sqrt(n); i++) {
+                if(n % i == 0) return false;
+            }
+            return true;
+        }
+        
+    }
