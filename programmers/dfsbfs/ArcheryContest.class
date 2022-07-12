@@ -1,0 +1,43 @@
+import java.util.*;
+class ArcheryContest {
+    static int[] res = {-1};
+    static int[] ryan;
+    static int[] apeach;
+    static int max = Integer.MIN_VALUE;
+    static int N;
+    
+    public void dfs(int depth) {
+        if(depth == N) {
+            int a = 0;
+            int r = 0;
+            for (int i=0; i< 11; i++) {
+                if(apeach[i] == 0 && ryan[i] == 0) continue;
+                if(apeach[i] < ryan[i]) r += 10 - i;
+                else a += 10 - i;
+            }
+            if (r > a) {
+                int diff = r - a;
+                if (diff >= max) {
+                    max = diff;
+                    res = ryan.clone();
+                }
+            }
+        }
+        else { 
+            for (int i = 0 ; i < 11 && ryan[i] <= apeach[i]; i++) {
+                ryan[i]++;
+                dfs(depth + 1);
+                ryan[i]--;
+            }
+        }
+    }
+    
+    
+    public int[] solution(int n, int[] info) {
+        ryan = new int[11];
+        apeach = info;
+        N = n;
+        dfs(0);
+        return res;
+    }
+}
