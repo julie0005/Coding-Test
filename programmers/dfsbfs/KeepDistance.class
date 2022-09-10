@@ -1,0 +1,73 @@
+import java.util.*;
+class Solution {
+    String[][] graph;
+    int[] dx2 = {-1, -2, -1, 0, 1, 2, 1, 0};
+    int[] dy2 = {1, 0, -1, -2, -1, 0, 1, 2};
+    int[] dx1 = {-1, 0, 1, 0};
+    int[] dy1 = {0, -1, 0, 1};
+    public int[] solution(String[][] places) {
+        graph = places;
+        int[] answer = new int[5];
+        for(int i=0; i<places.length; i++) {
+            answer[i] = decide(places[i]);
+        }
+        return answer;
+    }
+    
+    class Position {
+        int rowIdx;
+        int colIdx;
+        
+        Position(int rowIdx, int colIdx) {
+            this.rowIdx = rowIdx;
+            this.colIdx = colIdx;
+        }
+    }
+    
+    int decide(String[] arr) {
+        
+        for(int i=0; i<arr.length; i++) {
+            for(int j=0; j<arr[i].length(); j++) {
+                if(arr[i].substring(j,j+1).equals("P")) {
+                    Position startP = new Position(i,j);
+                    for(int k=0; k<dx1.length; k++) {
+                        int rowIdx = startP.rowIdx + dx1[k];
+                        int colIdx = startP.colIdx + dy1[k];
+                        if(rowIdx < 0 || rowIdx > 4 || colIdx < 0 || colIdx > 4) continue;
+                        if(arr[rowIdx].substring(colIdx, colIdx+1).equals("P")) return 0;
+                    }
+                    for(int k=0; k<dx2.length; k++) {
+                        int rowIdx = startP.rowIdx + dx2[k];
+                        int colIdx = startP.colIdx + dy2[k];
+                        if(rowIdx < 0 || rowIdx > 4 || colIdx < 0 || colIdx > 4) continue;
+                        if(arr[rowIdx].substring(colIdx, colIdx+1).equals("P")) {
+                            Position targetP = new Position(rowIdx, colIdx);
+                            int rowDiff = targetP.rowIdx - startP.rowIdx;
+                            int colDiff = targetP.colIdx - startP.colIdx;
+                            int rowDirection = rowDiff > 0 ? 1 : -1;
+                            int colDirection = colDiff > 0 ? 1 : -1;
+                            if (rowDiff == 0) {
+                                
+                                    Position tempP = new Position(startP.rowIdx, startP.colIdx + colDirection);
+                                    if(arr[tempP.rowIdx].substring(tempP.colIdx, tempP.colIdx+1).equals("O")) return 0;
+                                
+                            }
+                            else if (colDiff == 0) {
+                                
+                                    Position tempP = new Position(startP.rowIdx + rowDirection, startP.colIdx);
+                                    if(arr[tempP.rowIdx].substring(tempP.colIdx, tempP.colIdx+1).equals("O")) return 0;
+                            }
+                            else {
+                                Position temp1 = new Position(startP.rowIdx + rowDiff , startP.colIdx);
+                                Position temp2 = new Position(startP.rowIdx, startP.colIdx + colDiff);
+                                if(arr[temp1.rowIdx].substring(temp1.colIdx, temp1.colIdx+1).equals("O") || arr[temp2.rowIdx].substring(temp2.colIdx, temp2.colIdx+1).equals("O")) return 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+    
+}
