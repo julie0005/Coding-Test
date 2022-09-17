@@ -1,0 +1,45 @@
+import java.util.*;
+import java.util.stream.*;
+class SearchRank {
+    List<Applicant> applicants = new ArrayList<>();
+    public int[] solution(String[] info, String[] query) {
+        int[] answers = new int[query.length];
+        for(String infoStr : info) {
+            String[] unitInfo = infoStr.split(" ");
+            applicants.add(new Applicant(unitInfo[0], unitInfo[1], unitInfo[2], unitInfo[3], Integer.parseInt(unitInfo[4])));
+        }
+        int i=0;
+        for(String unitQuery : query) {
+            String[] conditions = unitQuery.split(" (and )*");
+            int count = (int) applicants.stream().filter(a -> 
+                (conditions[0].equals("-") || a.language.equals(conditions[0]))
+                    &&
+                (conditions[1].equals("-") || a.position.equals(conditions[1]))
+                    &&
+                (conditions[2].equals("-") || a.career.equals(conditions[2]))
+                    &&
+                (conditions[3].equals("-") || a.soulFood.equals(conditions[3]))
+                    &&
+                (a.score >= Integer.parseInt(conditions[4]))
+            ).count();
+            answers[i++] = count;
+        }
+        return answers;
+    }
+    
+    class Applicant{
+        String language;
+        String position;
+        String career;
+        String soulFood;
+        int score;
+        
+        Applicant(String lan, String pos, String car, String soul, int score) {
+            this.language = lan;
+            this.position = pos;
+            this.career = car;
+            this.soulFood = soul;
+            this.score = score;
+        }
+    }
+}
