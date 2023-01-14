@@ -27,7 +27,7 @@ public class Multitab {
             //한번도 등장하지 않는 경우, 가장 늦게 등장하는 경우
             int max = -1, idx = -1;
             for(int s : set){
-                int duration=0;
+                int duration=0; // 다시 등장할 때까지의 텀. (안 등장하는 경우 베스트)
                 List<Integer> sub=list.subList(i+1, k);
                 if(sub.contains(s)){
                     //만약 나중에 이 전자제품이 등장한다면
