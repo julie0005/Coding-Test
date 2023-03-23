@@ -1,10 +1,8 @@
 package programmers.dfsbfs;
-
 import java.util.*;
 import java.awt.Point;
 public class MazeEscape {
-    int[][] map;
-    boolean[][] visited;
+    char[][] map;
     int N,M;
     Point ptr;
     Point start;
@@ -15,6 +13,7 @@ public class MazeEscape {
     int[] dy = {0, 1, 0, -1};
     
     public int bfs(Point start, Point end) {
+        boolean[][] visited = new boolean[N][M];
         Queue<Position> queue = new LinkedList<Position>();
         queue.add(new Position(start, 0));
         visited[start.x][start.y] = true;
@@ -31,7 +30,7 @@ public class MazeEscape {
                 int nextRow = current.pos.x + dx[i];
                 int nextCol = current.pos.y + dy[i];
                 if (nextRow >= 0 && nextRow < N && nextCol >= 0 && nextCol < M) {
-                    if (map[nextRow][nextCol] != 4 && !visited[nextRow][nextCol]) {
+                    if (map[nextRow][nextCol] != 'X' && !visited[nextRow][nextCol]) {
                         queue.add(new Position(new Point(nextRow, nextCol), cnt+1));
                         visited[nextRow][nextCol] = true;
                     }
@@ -43,43 +42,32 @@ public class MazeEscape {
     public int solution(String[] maps) {
         N = maps.length;
         M = maps[0].length();
-        map = new int[N][M];
-        visited = new boolean[N][M];
+        map = new char[N][M];
 
         for ( int i=0; i<maps.length; i++) {
             for (int j=0; j<maps[i].length(); j++) {
-                String input = maps[i].substring(j, j+1);
-                if (input.equals("S")) {
+                char input = maps[i].charAt(j);
+                map[i][j] = input;
+                if (input == 'S') {
                     //스타트
-                    map[i][j] = 0;
                     start = new Point(i, j);
                 }
-                else if(input.equals("E")){
+                else if(input == 'E'){
                     //출구
-                    map[i][j] = 1;
                     end = new Point(i, j);
                 }
-                else if(input.equals("L")) {
+                else if(input == 'L') {
                     //레버
-                    map[i][j] = 2;
                     lever = new Point(i, j);
-                }
-                else if(input.equals("O")) {
-                    //통로
-                    map[i][j] = 3;
-                }
-                else {
-                    //벽
-                    map[i][j] = 4;
                 }
                     
             }
         }
         int levCnt = bfs(start, lever);
-        visited = new boolean[N][M];
+        if (levCnt == -1) return -1;
         int endCnt = bfs(ptr, end);
-        if (levCnt == -1 || endCnt == -1) return -1;
-        else return levCnt + endCnt;
+        if (endCnt == -1) return -1;
+        return levCnt + endCnt;
     }
     class Position {
         Point pos;
