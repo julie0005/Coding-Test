@@ -1,5 +1,8 @@
 package programmers.basic;
-
+/*
+ * 프로그래머스 다음 큰 숫자
+ * 진수 변환 함수
+ */
 class NextBigNumber {
     public int binaryOneCount(int n) {
         int cnt = 0;
