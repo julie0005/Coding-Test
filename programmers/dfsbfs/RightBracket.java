@@ -1,3 +1,4 @@
+package programmers.dfsbfs;
 import java.util.*;
 class RightBracket{
     class P{
@@ -20,8 +21,8 @@ class RightBracket{
                 answer++;
                 continue;
             }
-            stack.push(new P(p.open+1, p.close));
-            stack.push(new P(p.open, p.close+1));
+            st.push(new P(p.open+1, p.close));
+            st.push(new P(p.open, p.close+1));
         }
         return answer;
     }

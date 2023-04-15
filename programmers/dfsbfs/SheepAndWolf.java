@@ -1,3 +1,4 @@
+package programmers.dfsbfs;
 class SheepAndWolf {
     static boolean[][] map;
     

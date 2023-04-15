@@ -1,3 +1,4 @@
+package programmers.dfsbfs;
 class Network {
     public static boolean[] visited=new boolean[205]; // boolean 배열 기본 초기값은 false
     public static int[][] graph;
