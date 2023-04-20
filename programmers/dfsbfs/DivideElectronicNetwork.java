@@ -1,6 +1,14 @@
 package programmers.dfsbfs;
 
 import java.util.*;
+
+/*
+ * 프로그래머스 전력망 둘로 나누기
+ * 1. Node class 정의, LinkedList<Node>로 adjaency list 만들기
+ * 2. dfs에서 visited true하는 이유는 parent -> child node로 이동했을 때, child node에서 다시 parent를 방문하지 않기 위해.
+ * - 탐색 끝난 이후에는 다시 방문하지 않음. (tree구조에서는)
+ * 3. list에서 Index를 사용하여 remove 시, ConcurrentModificationException이 발생한다면 remove Object 등 사용하거나 iterator방식으로 전환
+ */
 class DivideElectronicNetwork {
     public int solution(int n, int[][] wires) {
         int diff = Integer.MAX_VALUE;
