@@ -23,7 +23,7 @@ public class Multitab {
             if(set.size()<holes && set.add(num)) continue; // 자리가 남아있으면 전자제품 추가
 
             //자리 없어서 뺄 놈 정해야하는 경우
-            //뺐을 때 그 플러그 자리를 최대한 오래 사용할 수 있는 전자제품 = optimal solution
+            //뺀 전자제품이 처음으로 다시 등장하는 기간이 가장 길 때 = optimal solution
             //한번도 등장하지 않는 경우, 가장 늦게 등장하는 경우
             int max = -1, idx = -1;
             for(int s : set){
