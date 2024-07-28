@@ -1,3 +1,4 @@
+package programmers.binary_search;
 import java.util.*;
 import java.util.stream.*;
 class BestSearchRank {

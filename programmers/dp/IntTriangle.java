@@ -1,3 +1,4 @@
+package programmers.dp;
 class IntTriangle{
     public int solution(int[][] triangle) {
         int max=0;
